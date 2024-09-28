@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git credentialsId: 'github-token', url: 'https://github.com/DishaHolmukhe/Maven-Build-Pipeline.git'
+                git credentialsId: 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 , url: 'https://github.com/DishaHolmukhe/Maven-Build-Pipeline.git'
             }
         }
 
