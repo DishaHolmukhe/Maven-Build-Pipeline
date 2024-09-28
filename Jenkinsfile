@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/username/maven-project.git'
+                git credentialsId: 'github-token', url: 'https://github.com/DishaHolmukhe/Maven-Build-Pipeline.git'
             }
         }
 
