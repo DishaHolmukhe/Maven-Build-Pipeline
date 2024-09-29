@@ -1,46 +1,22 @@
 pipeline {
     agent any
-
-    tools {
-        maven 'Maven3.9.9' // Specify the Maven installation you configured
-    }
-
     stages {
-        stage('Checkout') {
+        stage('clone repo & clean') {
             steps {
-                git credentialsId: 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 , url: 'https://github.com/DishaHolmukhe/Maven-Build-Pipeline.git'
+                bat 'if exist "Maven-Build-Pipeline" rmdir /S /Q "Maven-Build-Pipeline"'  // Check if directory exists before deleting
+                bat "git clone https://github.com/DishaHolmukhe/Maven-Build-Pipeline.git"
+                bat "mvn clean -f Maven-Build-Pipeline"
             }
         }
-
-        stage('Build') {
-            steps {
-                script {
-                    sh 'mvn clean install'
-                }
-            }
-        }
-
         stage('Test') {
             steps {
-                script {
-                    sh 'mvn test'
-                }
+                bat "mvn test -f Maven-Build-Pipeline"
             }
         }
-
         stage('Deploy') {
             steps {
-                script {
-                    sh 'mvn deploy'
-                }
+                bat "mvn package -f Maven-Build-Pipeline"
             }
-        }
-    }
-
-    post {
-        always {
-            echo 'Cleaning up workspace...'
-            cleanWs()  // Cleanup workspace after the build
         }
     }
 }
